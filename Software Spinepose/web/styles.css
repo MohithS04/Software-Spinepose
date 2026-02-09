@@ -1,0 +1,550 @@
+:root {
+    --bg-color: #050a14;
+    --panel-bg: rgba(10, 20, 35, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --accent-cyan: #00f0ff;
+    --accent-blue: #0077ff;
+    --accent-purple: #bc13fe;
+    --accent-red: #ff004c;
+    --text-primary: #ffffff;
+    --text-secondary: #8b9bb4;
+    --font-heading: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: "SF Mono", "Consolas", "Menlo", monospace;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+body {
+    background-color: var(--bg-color);
+    background-image:
+        radial-gradient(circle at 15% 50%, rgba(0, 240, 255, 0.08) 0%, transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(188, 19, 254, 0.08) 0%, transparent 25%);
+    color: var(--text-primary);
+    font-family: var(--font-heading);
+    height: 100vh;
+    overflow: hidden;
+    padding: 20px;
+}
+
+/* --- Bento Grid Layout --- */
+.bento-container {
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    grid-template-rows: 60px 1fr 220px 80px;
+    gap: 15px;
+    width: 100%;
+    height: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    grid-template-areas:
+        "header header header"
+        "main main metrics"
+        "main main sub"
+        "dock dock dock";
+}
+
+/* --- Glassmorphism Base --- */
+.glass-panel {
+    background: rgba(13, 19, 30, 0.65);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- Header --- */
+.header-panel {
+    grid-area: header;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-icon {
+    color: var(--accent-cyan);
+    filter: drop-shadow(0 0 5px rgba(0, 240, 255, 0.5));
+}
+
+h1 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.version-tag {
+    font-size: 0.6rem;
+    background: rgba(0, 240, 255, 0.1);
+    color: var(--accent-cyan);
+    padding: 2px 6px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-left: 8px;
+    border: 1px solid rgba(0, 240, 255, 0.2);
+}
+
+.user-greeting {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.header-controls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.status-badge {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--text-secondary);
+    border-radius: 50%;
+    box-shadow: 0 0 5px var(--text-secondary);
+    transition: 0.3s;
+}
+
+.time-display {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--accent-cyan);
+}
+
+/* --- Main Feed --- */
+.main-feed-panel {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.panel-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.live-indicator {
+    font-size: 0.7rem;
+    color: var(--accent-red);
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.viewport-large {
+    flex: 1;
+    position: relative;
+    background: #000;
+    background-size: cover;
+    background-position: center;
+    margin: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.overlay-ui {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.corner-bracket {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--accent-cyan);
+}
+
+.top-left {
+    top: 20px;
+    left: 20px;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+.top-right {
+    top: 20px;
+    right: 20px;
+    border-left: 0;
+    border-bottom: 0;
+}
+
+.bottom-left {
+    bottom: 20px;
+    left: 20px;
+    border-right: 0;
+    border-top: 0;
+}
+
+.bottom-right {
+    bottom: 20px;
+    right: 20px;
+    border-left: 0;
+    border-top: 0;
+}
+
+.center-target {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--accent-cyan);
+    font-size: 1.5rem;
+    opacity: 0.5;
+}
+
+/* --- Metrics Panel --- */
+.metrics-panel {
+    grid-area: metrics;
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-grid {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+
+.metric-item {
+    background: rgba(255, 255, 255, 0.02);
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 2px solid var(--accent-cyan);
+}
+
+.lbl {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.val-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.val {
+    font-size: 1.4rem;
+    font-weight: 600;
+    font-family: var(--font-mono);
+}
+
+.mini-chart {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--accent-cyan);
+    box-shadow: 0 0 8px currentColor;
+}
+
+.c-blue {
+    color: var(--accent-cyan);
+    background: var(--accent-cyan);
+}
+
+.c-purple {
+    color: var(--accent-purple);
+    background: var(--accent-purple);
+    border-color: var(--accent-purple);
+}
+
+.c-cyan {
+    color: #00ff9d;
+    background: #00ff9d;
+    border-color: #00ff9d;
+}
+
+.health-score-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.circle-ring circle {
+    fill: none;
+    stroke-width: 6;
+}
+
+.c-bg {
+    stroke: rgba(255, 255, 255, 0.05);
+}
+
+.c-val {
+    stroke: var(--accent-cyan);
+    stroke-dasharray: 377;
+    stroke-dashoffset: 377;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition: stroke-dashoffset 1s ease;
+}
+
+.score-inner {
+    position: absolute;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.score-text {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.score-label {
+    font-size: 0.6rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+/* --- Secondary Views --- */
+.sub-views-panel {
+    grid-area: sub;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 15px;
+}
+
+.sub-view {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.vp-label {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    font-size: 0.65rem;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    z-index: 5;
+}
+
+.sub-viewport {
+    flex: 1;
+    background: #000;
+    background-size: cover;
+    background-position: center;
+    margin: 4px;
+    border-radius: 12px;
+    border: 1px solid transparent;
+}
+
+.sub-viewport.active-scan {
+    border-color: var(--accent-cyan);
+    box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.1);
+}
+
+/* --- Control Dock --- */
+.control-dock {
+    grid-area: dock;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    /* Align all to right */
+    gap: 20px;
+    /* Space between groups */
+    padding: 10px 40px;
+    background: rgba(5, 10, 20, 0.85);
+    /* Darker for dock */
+    z-index: 100;
+    /* Ensure on top */
+    position: relative;
+}
+
+.dock-group {
+    display: flex;
+    gap: 15px;
+    /* Increased gap */
+    align-items: center;
+}
+
+.dock-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    /* Slightly brighter bg */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    /* More visible border */
+    color: var(--text-secondary);
+    padding: 12px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.dock-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+.dock-btn.active {
+    background: rgba(0, 240, 255, 0.15);
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+}
+
+.dock-separator {
+    width: 1px;
+    height: 30px;
+    background: var(--glass-border);
+}
+
+.main-action-btn {
+    background: var(--accent-cyan);
+    color: #000;
+    border: none;
+    padding: 0 40px;
+    height: 44px;
+    border-radius: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+    transition: all 0.3s;
+}
+
+.main-action-btn:hover {
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.5);
+    transform: scale(1.02);
+}
+
+.main-action-btn.stop-mode {
+    background: var(--accent-red);
+    box-shadow: 0 0 20px rgba(255, 0, 76, 0.3);
+}
+
+.dock-icon-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.dock-icon-btn:hover {
+    color: var(--accent-cyan);
+    background: rgba(0, 240, 255, 0.1);
+}
+
+.record-btn {
+    color: var(--text-secondary);
+}
+
+.record-btn.recording {
+    background: rgba(255, 0, 76, 0.2);
+    border-color: var(--accent-red);
+    color: var(--accent-red);
+    animation: pulse-red 1.5s infinite;
+}
+
+.glass-select {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--glass-border);
+    color: var(--accent-cyan);
+    padding: 10px 15px;
+    border-radius: 8px;
+    outline: none;
+}
+
+/* --- Patient Panel (Floating) --- */
+.patient-panel {
+    display: none;
+    /* Hide old panel layout */
+}
+
+/* Re-use patient info in new location if needed, 
+   but for now we integrated it into the header/dock logic virtually 
+   or we can stick it in the metric panel. 
+   Let's actually just hide the specific patient panel in the grid 
+   and move the info to the Metric Panel top or Header.
+   Wait, the grid defines area 'metrics' covering the side.
+   I will adapt the patient info display into the 'metrics' panel via JS or just CSS.
+*/
+
+/* --- Animations --- */
+@keyframes pulse-red {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 76, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 0, 76, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 0, 76, 0);
+    }
+}
+
+/* --- Responsive 1200px --- */
+@media (max-width: 1200px) {
+    .bento-container {
+        grid-template-columns: 1fr 280px;
+        grid-template-rows: 60px 1fr 200px 80px;
+        grid-template-areas:
+            "header header"
+            "main metrics"
+            "sub metrics"
+            "dock dock";
+    }
+}
