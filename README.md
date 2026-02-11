@@ -63,8 +63,13 @@ The UI avoids heavy frameworks (React/Angular) in favor of Vanilla JS and CSS3 V
     git clone https://github.com/MohithS04/Software-Spinepose.git
     cd "Software Spinepose"
     ```
-
-2.  **Install Dependencies**
+2. Create and Activate Virtual environment
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   # Note: On Windows, use: .venv\Scripts\activate
+   ```
+3.  **Install Dependencies**
     ```bash
     pip install -r requirements.txt
     ```
