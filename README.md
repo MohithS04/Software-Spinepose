@@ -60,7 +60,7 @@ The UI avoids heavy frameworks (React/Angular) in favor of Vanilla JS and CSS3 V
 ### Setup
 1.  **Clone the Repository**
     ```bash
-    git clone https://github.com/your-repo/software-spinepose.git
+    git clone https://github.com/MohithS04/Software-Spinepose.git
     cd "Software Spinepose"
     ```
 
